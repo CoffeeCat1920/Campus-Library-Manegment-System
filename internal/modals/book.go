@@ -3,6 +3,8 @@ package modals
 type Book struct {
 	ISBN      string
 	Name      string
+	Author    string
+	Genre     string
 	Available bool
 }
 

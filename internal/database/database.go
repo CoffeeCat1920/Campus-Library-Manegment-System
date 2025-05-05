@@ -97,16 +97,3 @@ func (s *service) Close() error {
 	log.Printf("Disconnected from database: %s", database)
 	return s.db.Close()
 }
-
-func (s *service) doesExists(value, attribute, table string) bool {
-	q := fmt.Sprintf("SELECT EXISTS(SELECT 1 FROM %s WHERE %s = $1)", table, attribute)
-
-	var exists bool
-	err := s.db.QueryRow(q, value).Scan(&exists)
-
-	if err != nil {
-		return false
-	}
-
-	return exists
-}

@@ -28,12 +28,9 @@ func TestAddUser(t *testing.T) {
 				UUID:     "test-uuid",
 				Name:     "testuser",
 				Password: "password123",
+				Type:     1,
 			},
 			setupMock: func() {
-				mock.ExpectQuery("SELECT EXISTS\\(SELECT 1 FROM users WHERE name = \\$1\\)").
-					WithArgs("testuser").
-					WillReturnRows(sqlmock.NewRows([]string{"exists"}).AddRow(false))
-
 				mock.ExpectExec("INSERT INTO users\\(uuid, name, password\\)").
 					WithArgs("test-uuid", "testuser", "password123").
 					WillReturnResult(sqlmock.NewResult(1, 1))

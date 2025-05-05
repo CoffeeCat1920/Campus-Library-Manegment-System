@@ -8,12 +8,13 @@ import (
 )
 
 type User struct {
-	UUID     string `json:"uuid"`
-	Name     string `json:"name"`
-	Password string `json:"password"`
+	UUID     string   `json:"uuid"`
+	Name     string   `json:"name"`
+	Password string   `json:"password"`
+	Type     UserType `json:"type"`
 }
 
-func NewUser(name, password string) *User {
+func NewStudent(name, password string) *User {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
 	if err != nil {
 		log.Fatal("\nCan't hash the password for user\n")
@@ -24,6 +25,7 @@ func NewUser(name, password string) *User {
 		UUID:     uuid.NewString(),
 		Name:     name,
 		Password: string(hashedPassword),
+		Type:     Student,
 	}
 }
 
