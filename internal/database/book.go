@@ -12,11 +12,12 @@ func (s *service) AddBook(book *modals.Book) error {
 
 	_, err := s.db.Exec(q, book.ISBN, book.Name, book.Available, book.Genre)
 
-	if IsUniqueViolation(err) {
-		return ErrItemAlreadyExists
-	}
 	if PrimaryKeyError(err) {
 		return ErrItemPrimaryKeyExits
+	}
+
+	if IsUniqueViolation(err) {
+		return ErrItemAlreadyExists
 	}
 
 	if err != nil {

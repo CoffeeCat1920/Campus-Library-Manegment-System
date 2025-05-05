@@ -15,12 +15,11 @@ const submitForm = async () => {
       name: form.name,
       isbn: form.isbn,
       author: form.author,
-      genre: genre,// convert to array
+      genre: genre,
     })
     alert('Book added successfully!')
   } catch (err) {
     console.error(err)
-    alert('Failed to add book.')
   }
 }
 </script>
@@ -47,7 +46,6 @@ const submitForm = async () => {
       <div class="mb-3">
         <label for="genre" class="form-label">Genre</label>
         <input type="text" v-model="form.genre" class="form-control" id="genre" required />
-        <div class="form-text">You can use a comma-separated list (e.g., Fantasy, Horror)</div>
       </div>
 
       <button type="submit" class="btn btn-primary">Submit</button>
