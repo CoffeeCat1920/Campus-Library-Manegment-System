@@ -1,6 +1,7 @@
 package database
 
 import (
+	"CLH/internal/modals"
 	"context"
 	"database/sql"
 	"fmt"
@@ -14,6 +15,9 @@ import (
 )
 
 type Service interface {
+	GetAllBooks() ([]modals.Book, error)
+	AddBook(book *modals.Book) error
+
 	Health() map[string]string
 	Close() error
 }

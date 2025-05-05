@@ -1,6 +1,7 @@
 package server
 
 import (
+	"CLH/internal/api"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -10,12 +11,13 @@ import (
 
 func (s *Server) RegisterRoutes() http.Handler {
 	r := mux.NewRouter()
+	api := api.NewApi()
 
-	// Apply CORS middleware
+	r.HandleFunc("/data/books", api.GetAllBooksHandler).Methods("GET")
+	r.HandleFunc("/recipe", api.AddBookHandler).Methods("POST")
+
 	r.Use(s.corsMiddleware)
-
 	r.HandleFunc("/", s.HelloWorldHandler)
-
 	r.HandleFunc("/health", s.healthHandler)
 
 	return r
@@ -24,11 +26,17 @@ func (s *Server) RegisterRoutes() http.Handler {
 // CORS middleware
 func (s *Server) corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// CORS Headers
-		w.Header().Set("Access-Control-Allow-Origin", "*") // Wildcard allows all origins
+		// Allow requests from frontend origin (replace with actual frontend URL)
+		w.Header().Set("Access-Control-Allow-Origin", "*") // Set a specific origin
+
+		// Allowed HTTP methods
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH")
+
+		// Allowed headers
 		w.Header().Set("Access-Control-Allow-Headers", "Accept, Authorization, Content-Type")
-		w.Header().Set("Access-Control-Allow-Credentials", "false") // Credentials not allowed with wildcard origins
+
+		// If you want to allow credentials (cookies, auth headers), set this to true
+		w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 		// Handle preflight OPTIONS requests
 		if r.Method == http.MethodOptions {
